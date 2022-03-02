@@ -52,6 +52,25 @@ func TestDivide(t *testing.T) {
 	}
 }
 
+func TestDivideInvalidInput(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		a, b float64
+	}
+
+	testCases := []testCase{
+		{a: 2, b: 0},
+	}
+
+	for _, tc := range testCases {
+		_, err := calculator.Divide(tc.a, tc.b)
+		if err == nil {
+			t.Fatalf("Divide(%f, %f): want error for invalid input got nil", tc.a, tc.b)
+		}
+	}
+}
+
 func TestMultiply(t *testing.T) {
 	t.Parallel()
 	
