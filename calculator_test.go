@@ -2,6 +2,7 @@ package calculator_test
 
 import (
 	"calculator"
+	maths "math"
 	"testing"
 )
 
@@ -36,9 +37,10 @@ func TestDivide(t *testing.T) {
 	}
 
 	testCases := []testCase{
-		{a: 2, b: 2, want: 1},
-		{a: 7, b: 2, want: 3.5},
-		{a: 1, b: -1, want: -1},
+		{a: 2, b: 2, want: 1,},
+		{a: 7, b: 2, want: 3.5,},
+		{a: 1, b: -1, want: -1,},
+		{a: 1, b: 3, want: 0.333333,},
 	}
 
 	for _, tc := range testCases {
@@ -46,7 +48,7 @@ func TestDivide(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Divide(%f, %f): want no error for valid input got, %v", tc.a, tc.b, err)
 		}
-		if tc.want != got {
+		if !closeEnough(tc.want, got, 0.001) {
 			t.Errorf("want %f, got %f", tc.want, got)
 		}
 	}
@@ -113,4 +115,8 @@ func TestSubtract(t *testing.T) {
 			t.Errorf("want %f, got %f", tc.want, got)
 		}
 	}
+}
+
+func closeEnough(a, b, tolerance float64) bool {
+	return maths.Abs(a - b) <= tolerance
 }
